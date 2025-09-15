@@ -8,9 +8,8 @@
 
 #include <memory>
 
-#include "cuda_wrappers/error.h"
-#include "cuda_wrappers/fwd.h"
-#include "cuda_wrappers/stream.h"
+#include "error.h"
+#include "fwd.h"
 #include "stream.h"
 
 namespace raw::cuda_wrappers {

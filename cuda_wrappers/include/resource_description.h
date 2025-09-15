@@ -7,7 +7,7 @@
 
 #include <cstring>
 
-#include "cuda_wrappers/fwd.h"
+#include "fwd.h"
 
 namespace raw::cuda_wrappers {
 namespace resource_types {

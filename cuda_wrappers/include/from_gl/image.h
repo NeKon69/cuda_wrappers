@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "cuda_wrappers/resource.h"
+#include "resource.h"
 
 namespace raw::cuda_wrappers::from_gl {
 class image : resource {

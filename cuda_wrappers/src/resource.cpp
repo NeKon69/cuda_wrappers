@@ -1,13 +1,13 @@
 //
 // Created by progamers on 8/5/25.
 //
-#include "cuda_wrappers/resource.h"
+#include "resource.h"
 
 #include <iostream>
 
-#include "cuda_wrappers/error.h"
-#include "cuda_wrappers/exception.h"
-#include "cuda_wrappers/stream.h"
+#include "error.h"
+#include "exception.h"
+#include "stream.h"
 
 namespace raw::cuda_wrappers {
 resource::mapped_resource::mapped_resource(std::shared_ptr<cuda_wrappers::cuda_stream> stream,

@@ -5,7 +5,7 @@
 #pragma once
 #include <cuda_runtime.h>
 
-#include "cuda_wrappers/fwd.h"
+#include "fwd.h"
 namespace raw::cuda_wrappers {
 class cuda_stream {
 private:

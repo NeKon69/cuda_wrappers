@@ -1,12 +1,13 @@
 //
 // Created by progamers on 7/20/25.
 //
-#include "cuda_wrappers/stream.h"
+#include "stream.h"
 
 #include <iostream>
 #include <memory>
 
-#include "cuda_wrappers/error.h"
+#include "error.h"
+#include "exception.h"
 
 namespace raw::cuda_wrappers {
 cuda_stream::cuda_stream() : created(std::make_shared<bool>(false)) {
