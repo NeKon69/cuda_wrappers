@@ -1,7 +1,7 @@
 //
 // Created by progamers on 8/5/25.
 //
-#include "cuda_wrappers/from_gl/image.h"
+#include "include/from_gl/image.h"
 
 namespace raw::cuda_wrappers::from_gl {
 image::image(uint32_t texture_id)

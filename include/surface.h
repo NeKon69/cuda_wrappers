@@ -5,8 +5,8 @@
 #pragma once
 #include <cuda_gl_interop.h>
 
-#include "cuda_wrappers/error.h"
-#include "cuda_wrappers/resource_description.h"
+#include "include/error.h"
+#include "include/resource_description.h"
 
 namespace raw::cuda_wrappers {
 class surface {

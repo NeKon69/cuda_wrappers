@@ -8,9 +8,9 @@
 
 #include <memory>
 
-#include "cuda_wrappers/error.h"
-#include "cuda_wrappers/fwd.h"
-#include "cuda_wrappers/stream.h"
+#include "include/error.h"
+#include "include/fwd.h"
+#include "include/stream.h"
 namespace raw::cuda_wrappers {
 // This motherfucker right here, yes, this one, he is the fucking ugliest part of my code, it
 // sucks, it's ugly, and also... IDK

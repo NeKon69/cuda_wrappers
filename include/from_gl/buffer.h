@@ -5,9 +5,9 @@
 #pragma once
 #include <cuda_gl_interop.h>
 
-#include "cuda_wrappers/error.h"
-#include "cuda_wrappers/fwd.h"
-#include "cuda_wrappers/resource.h"
+#include "include/error.h"
+#include "include/fwd.h"
+#include "include/resource.h"
 
 namespace raw::cuda_wrappers::from_gl {
 template<typename T>

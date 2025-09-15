@@ -4,11 +4,11 @@
 
 #pragma once
 #include <format>
+#include <iostream>
 #include <source_location>
 #include <stdexcept>
-#include <iostream>
 
-#include "cuda_wrappers/exception.h"
+#include "include/exception.h"
 #define CUDA_SAFE_CALL(call)                                                                            \
 	do {                                                                                                \
 		cudaError_t error = call;                                                                       \
