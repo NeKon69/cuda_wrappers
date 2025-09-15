@@ -8,13 +8,13 @@
 namespace raw::cuda_wrappers::from_gl {
 image::image(uint32_t texture_id)
 	: resource(cudaGraphicsGLRegisterImage, nullptr, texture_id, GL_TEXTURE_2D,
-	                            cudaGraphicsRegisterFlagsSurfaceLoadStore) {
+			   cudaGraphicsRegisterFlagsSurfaceLoadStore) {
 	CUDA_SAFE_CALL(cudaGraphicsSubResourceGetMappedArray(&array, *get_resource(), 0, 0));
 }
 
 void image::set_data(uint32_t texture_id) {
 	create(cudaGraphicsGLRegisterImage, texture_id, GL_TEXTURE_2D,
-	       cudaGraphicsRegisterFlagsSurfaceLoadStore);
+		   cudaGraphicsRegisterFlagsSurfaceLoadStore);
 	CUDA_SAFE_CALL(cudaGraphicsSubResourceGetMappedArray(&array, *get_resource(), 0, 0));
 }
 
@@ -22,4 +22,4 @@ cudaArray_t image::get() {
 	map();
 	return array;
 }
-} // namespace raw::cuda::from_gl
+} // namespace raw::cuda_wrappers::from_gl

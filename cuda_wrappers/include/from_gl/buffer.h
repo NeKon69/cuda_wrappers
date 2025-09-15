@@ -53,4 +53,4 @@ public:
 
 	~buffer() override = default;
 };
-} // namespace raw::device_types::cuda::from_gl
+} // namespace raw::cuda_wrappers::from_gl

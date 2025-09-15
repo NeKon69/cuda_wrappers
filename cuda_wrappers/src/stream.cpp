@@ -61,4 +61,4 @@ cudaStream_t &cuda_stream::stream() {
 cuda_stream::~cuda_stream() {
 	destroy_noexcept();
 }
-} // namespace raw::device_types::cuda
+} // namespace raw::cuda_wrappers

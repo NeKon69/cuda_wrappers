@@ -56,7 +56,7 @@ public:
 
 	mapped_resource get_resource();
 
-	void			unmap();
+	void unmap();
 
 	void map();
 
@@ -73,5 +73,4 @@ public:
 protected:
 };
 
-} // namespace raw::device_types::cuda
-
+} // namespace raw::cuda_wrappers
