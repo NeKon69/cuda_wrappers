@@ -1,0 +1,95 @@
+//
+// Created by progamers on 8/5/25.
+//
+#include "cuda_wrappers/resource.h"
+
+#include <iostream>
+
+#include "cuda_wrappers/error.h"
+#include "cuda_wrappers/exception.h"
+#include "cuda_wrappers/stream.h"
+
+namespace raw::cuda_wrappers {
+resource::mapped_resource::mapped_resource(std::shared_ptr<cuda_wrappers::cuda_stream> stream,
+										   cudaGraphicsResource_t					   resource)
+	: stream(stream), resource(resource) {
+	CUDA_SAFE_CALL(cudaGraphicsMapResources(1, &resource, stream->stream()));
+}
+
+resource::mapped_resource::~mapped_resource() {
+	CUDA_SAFE_CALL(cudaGraphicsUnmapResources(1, &resource, stream->stream()));
+}
+
+cudaGraphicsResource_t& resource::mapped_resource::operator*() {
+	return resource;
+}
+
+void resource::unmap_noexcept() noexcept {
+	if (mapped && m_resource) {
+		try {
+			CUDA_SAFE_CALL(
+				cudaGraphicsUnmapResources(1, &m_resource, stream ? stream->stream() : nullptr));
+			mapped = false;
+		} catch (const cuda_exception& e) {
+			std::cerr << std::format("[CRITICAL] Failed to unmap graphics resource. \n{}",
+									 e.what());
+		}
+	}
+}
+
+void resource::cleanup() noexcept {
+	unmap_noexcept();
+	if (m_resource) {
+		try {
+			CUDA_SAFE_CALL(cudaGraphicsUnregisterResource(m_resource));
+		} catch (const cuda_exception& e) {
+			std::cerr << std::format("[CRITICAL] Failed to unregister resource. \n{}", e.what());
+		}
+	}
+}
+
+resource& resource::operator=(resource&& rhs) noexcept {
+	if (this == &rhs) {
+		return *this;
+	}
+	cleanup();
+	m_resource = rhs.m_resource;
+	mapped	   = rhs.mapped;
+	stream	   = std::move(rhs.stream);
+
+	rhs.m_resource = nullptr;
+	rhs.mapped	   = false;
+	return *this;
+}
+resource::resource(resource&& rhs) noexcept
+	: m_resource(rhs.m_resource), mapped(rhs.mapped), stream(std::move(rhs.stream)) {
+	rhs.m_resource = nullptr;
+	rhs.mapped	   = false;
+}
+
+resource::mapped_resource resource::get_resource() {
+	return mapped_resource {stream, m_resource};
+}
+
+void resource::unmap() {
+	if (mapped && m_resource) {
+		CUDA_SAFE_CALL(cudaGraphicsUnmapResources(1, &m_resource, stream->stream()));
+		mapped = false;
+	}
+}
+
+void resource::map() {
+	if (!mapped && m_resource) {
+		CUDA_SAFE_CALL(cudaGraphicsMapResources(1, &m_resource, stream->stream()));
+		mapped = true;
+	}
+}
+
+void resource::set_stream(std::shared_ptr<cuda_stream> stream_) {
+	stream = std::move(stream_);
+}
+
+resource::~resource() {
+	cleanup();
+}
+} // namespace raw::cuda_wrappers
