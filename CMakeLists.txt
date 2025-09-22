@@ -10,11 +10,15 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(CUDAToolkit REQUIRED)
 
-file(GLOB_RECURSE SOURCES src/*.c src/*.cpp tests/src/*.c tests/src/*.cpp main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+source_group(
+        "Header Files" FILES
+        include/cuda_wrappers/*.h
+)
 
-target_include_directories(${PROJECT_NAME} PRIVATE . cuda_wrappers/include)
+
+target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE
         $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wpedantic>
