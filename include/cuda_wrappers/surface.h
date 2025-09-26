@@ -15,6 +15,7 @@ private:
 	bool				created		   = false;
 
 public:
+	surface() = default;
 	template<typename T>
 	explicit surface(resource_description<T> &description) {
 		create(description);
@@ -23,7 +24,8 @@ public:
 
 	void create(resource_description<T> &description) {
 		if (!created) {
-			CUDA_SAFE_CALL(cudaCreateSurfaceObject(surface_object, description));
+			auto something = &description.get();
+			CUDA_SAFE_CALL(cudaCreateSurfaceObject(&surface_object, something));
 		}
 		created = true;
 	}

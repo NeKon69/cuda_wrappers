@@ -12,14 +12,15 @@
 namespace raw::cuda_wrappers {
 namespace resource_types {
 struct array {
-	cudaResourceType res_type = cudaResourceTypeArray;
+	static cudaResourceType res_type;
 };
+cudaResourceType array::res_type = cudaResourceTypeArray;
 } // namespace resource_types
 
 template<typename T>
 class resource_description {
 private:
-	cudaResourceDesc description;
+	cudaResourceDesc description = {};
 
 public:
 	resource_description() {
