@@ -12,7 +12,7 @@
 namespace raw::cuda_wrappers {
 namespace resource_types {
 struct array {
-	static cudaResourceType res_type;
+    static constexpr cudaResourceType res_type = cudaResourceTypeArray;
 };
 cudaResourceType array::res_type = cudaResourceTypeArray;
 } // namespace resource_types
