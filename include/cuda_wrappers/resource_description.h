@@ -14,7 +14,7 @@ namespace resource_types {
 struct array {
 	static cudaResourceType res_type;
 };
-cudaResourceType array::res_type = cudaResourceTypeArray;
+inline cudaResourceType array::res_type = cudaResourceTypeArray;
 } // namespace resource_types
 
 template<typename T>
