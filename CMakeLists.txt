@@ -1,44 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(include VERSION 1.0 LANGUAGES C CXX)
+project(cuda_wrappers LANGUAGES CXX CUDA)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
-set(CMAKE_CXX_EXTENSIONS OFF)
-find_package(CUDAToolkit REQUIRED)
+add_library(cuda_wrappers INTERFACE)
 
-add_executable(${PROJECT_NAME} main.cpp)
-
-source_group(
-        "Header Files" FILES
-        include/cuda_wrappers/*.h
+target_include_directories(cuda_wrappers INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
+target_link_libraries(cuda_wrappers INTERFACE CUDA::cudart)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
-
-target_compile_options(${PROJECT_NAME} PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wpedantic>
-        $<$<CXX_COMPILER_ID:MSVC>:/W4>
-
-        $<$<CONFIG:Debug>:-g>
-        $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Zi>
-        $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU>>:-Og>
-        $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:Clang>>:-Og>
-
-        $<$<CONFIG:Release>:-O3>
-        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/Ox>
-
-        $<$<AND:$<CONFIG:RelWithDebInfo>,$<CXX_COMPILER_ID:GNU>>:-O2 -g>
-        $<$<AND:$<CONFIG:RelWithDebInfo>,$<CXX_COMPILER_ID:Clang>>:-O2 -g>
-        $<$<AND:$<CONFIG:RelWithDebInfo>,$<CXX_COMPILER_ID:MSVC>>:/O2 /Zi>
-
-        $<$<AND:$<CONFIG:MinSizeRel>,$<CXX_COMPILER_ID:GNU>>:-Os>
-        $<$<AND:$<CONFIG:MinSizeRel>,$<CXX_COMPILER_ID:Clang>>:-Os>
-        $<$<AND:$<CONFIG:MinSizeRel>,$<CXX_COMPILER_ID:MSVC>>:/Os>
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE CUDA::cudart)
+add_library(cuda_wrappers::cuda_wrappers ALIAS cuda_wrappers)
